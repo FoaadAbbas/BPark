@@ -1,84 +1,84 @@
 🅿️ bPark - Automated Parking Management System
 
-bPark היא מערכת ניהול חניונים חכמה בפורמט Client-Server, שנועדה לייעל את תהליכי החניה עבור לקוחות (מזדמנים ומנויים) ועבור עובדי החניון. המערכת מטפלת בזמן אמת בהזמנות, ניהול שטחי חניה, הפקת דוחות וגביית תשלומים.
-🚀 פיצ'רים מרכזיים (Key Features)
+bPark is a smart parking management solution built on a Client-Server architecture. It is designed to streamline parking operations for both customers (occasional and subscribers) and parking lot employees. The system handles real-time reservations, parking space management, automated reporting, and payment processing.
+🚀 Key Features
 
-    ניהול לקוחות ומנויים: מערכת רישום וניהול מנויים (חודשיים/שנתיים) ולקוחות מזדמנים.
+    User & Subscription Management: Comprehensive registration for monthly/annual subscribers and one-time customers.
 
-    הזמנת חניה מראש: ממשק ידידותי לבחירת חניון, תאריך ושעה, כולל אימות זמינות בזמן אמת.
+    Advance Reservations: A user-friendly interface to select specific parking lots, dates, and times, with real-time availability validation.
 
-    ניהול חניונים אוטומטי: אלגוריתם לניהול סטטוס חניות (פנוי/תפוס/שמור) ועדכון אוטומטי של תפוסת החניון.
+    Automated Lot Management: An intelligent algorithm to manage parking space statuses (Available/Occupied/Reserved) and update lot capacity dynamically.
 
-    ארכיטקטורת שרת-לקוח: תקשורת מבוססת TCP/IP תוך שימוש בתשתית OCSF (Open Client Server Framework).
+    Networked Architecture: Based on TCP/IP communication using the OCSF (Open Client Server Framework).
 
-    ריבוי משימות (Multi-threading): השרת מסוגל לטפל בעשרות לקוחות במקביל ללא תקיעה של ממשק המשתמש (GUI).
+    Multi-threading: The server is engineered to handle dozens of concurrent client requests simultaneously without freezing the Graphical User Interface (GUI).
 
-    מחולל דוחות: הפקת דוחות ניהוליים (תפוסה, הכנסות, תלונות) עבור מנהלי חניונים.
+    Management Reports: Automated generation of management data including occupancy rates, revenue tracking, and customer complaint logs.
 
 🛠 Tech Stack
 
     Language: Java 17+
 
-    UI Framework: JavaFX (עם Scene Builder)
+    UI Framework: JavaFX (with Scene Builder)
 
     Networking: OCSF Framework (TCP/IP)
 
-    Database: MySQL (עם JDBC Connector)
+    Database: MySQL (via JDBC Connector)
 
-    Project Management: Maven
+    Build Tool: Maven
 
-🏗 ארכיטקטורה ודפוסי עיצוב (Design Patterns)
+🏗 Architecture & Design Patterns
 
-המערכת נבנתה תחת עקרונות הנדסת תוכנה מתקדמים כדי להבטיח תחזוקתיות וגמישות:
+The system was developed following advanced software engineering principles to ensure maintainability and scalability:
 
-    ECB Pattern (Entity-Control-Boundary): הפרדה מוחלטת בין שכבת התצוגה (Boundary), הלוגיקה העסקית (Control) ומבנה הנתונים (Entity).
+    ECB Pattern (Entity-Control-Boundary): Complete separation between the UI (Boundary), business logic (Control), and data structures (Entity).
 
-    Singleton: לניהול חיבור יחיד למסד הנתונים ולשרת.
+    Singleton: Used to manage a single, consistent connection to the database and the server instance.
 
-    Client-Server: הפרדה מלאה בין ה-Client (ממשק המשתמש) לבין ה-Server (עיבוד הנתונים והגישה ל-DB).
+    Client-Server Architecture: Ensures a clean decoupling of the front-end (Client) and back-end processing (Server).
 
-    Observer Pattern: לעדכון רכיבי GUI בעת קבלת הודעות חדשות מהשרת.
+    Observer Pattern: Utilized to update GUI components automatically whenever a new message or update is received from the server.
 
-📂 מבנה הפרויקט (Project Structure)
+📂 Project Structure
 Plaintext
 
 bPark-system/
 │
-├── bPark-Server/              # לוגיקת צד שרת וניהול DB
+├── bPark-Server/              # Server-side logic & DB management
 │   ├── src/main/java/server/
-│   │   ├── EchoServer.java    # ניהול תקשורת נכנסת
-│   │   └── DBController.java  # שאילתות MySQL
-│   └── resources/             # סכמות SQL
+│   │   ├── EchoServer.java    # Handles incoming connections
+│   │   └── DBController.java  # MySQL queries & DB logic
+│   └── resources/             # SQL schemas & configurations
 │
-├── bPark-Client/              # ממשק משתמש וניהול לקוח
+├── bPark-Client/              # UI & Client communication
 │   ├── src/main/java/client/
-│   │   ├── ClientUI.java      # נקודת כניסה
-│   │   └── ChatClient.java    # תקשורת מול השרת
+│   │   ├── ClientUI.java      # Entry point
+│   │   └── ChatClient.java    # Server communication bridge
 │   ├── src/main/java/gui/     # JavaFX Controllers
-│   └── src/main/resources/    # קבצי FXML (עיצוב הממשק)
+│   └── src/main/resources/    # FXML files (UI Design)
 │
-└── Common/                    # ישויות משותפות (Entities)
-    └── src/main/java/logic/   # מחלקות Order, Car, Parking, User
+└── Common/                    # Shared Data Entities
+    └── src/main/java/logic/   # Order, Car, Parking, and User classes
 
-⚙️ התקנה והרצה
+⚙️ Setup & Installation
 
-    מסד נתונים:
+    Database Setup:
 
-        ייבא את קובץ ה-SQL המצורף בתיקיית resources לתוך שרת ה-MySQL שלך.
+        Import the provided SQL file located in the resources folder into your MySQL server.
 
-        עדכן את פרטי הגישה (User/Password) ב-DBController.java.
+        Update the database credentials (User/Password) in DBController.java.
 
-    הרצת השרת:
+    Run the Server:
 
-        הפעל את ה-Jar של השרת או הרץ את EchoServer.java.
+        Launch the Server JAR or run EchoServer.java.
 
-        הזן את הפורט המבוקש (למשל 5555).
+        Enter the desired Port (e.g., 5555).
 
-    הרצת הלקוח:
+    Run the Client:
 
-        הפעל את ה-Jar של הלקוח.
+        Launch the Client JAR.
 
-        הזן את ה-IP של השרת (localhost להרצה מקומית) והפורט.
+        Enter the Server IP (localhost for local testing) and the Port.
 
 👤 Contact
 
@@ -86,8 +86,8 @@ Fuad Abbas
 
     Email: Foaad.Abbas@e.braude.ac.il
 
-    LinkedIn: linkedin.com/in/fuad-abbas
+    LinkedIn: linkedin.com/in/fuad-abbas-910843217
 
     GitHub: github.com/FoaadAbbas
 
-פרויקט זה פותח במסגרת הלימודים לתואר ראשון בהנדסת תוכנה במכללה האקדמית להנדסה בראודה.
+This project was developed as part of the B.Sc. in Software Engineering at Braude College of Engineering.
