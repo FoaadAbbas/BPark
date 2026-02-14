@@ -1,1 +1,2 @@
 *.html linguist-vendored
+BPark_Server/doc/* linguist-vendored
